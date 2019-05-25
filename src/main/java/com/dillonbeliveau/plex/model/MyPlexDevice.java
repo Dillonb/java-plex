@@ -170,4 +170,9 @@ public class MyPlexDevice {
     public String getHome() {
         return home;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %s present: %b", getName(), getProduct(), isPresent());
+    }
 }

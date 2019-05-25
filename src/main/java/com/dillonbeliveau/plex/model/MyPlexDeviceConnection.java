@@ -2,22 +2,46 @@ package com.dillonbeliveau.plex.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-class MyPlexDeviceConnection {
+public class MyPlexDeviceConnection {
     @JsonProperty("protocol")
-    public String protocol;
+    private String protocol;
 
     @JsonProperty("address")
-    public String address;
+    private String address;
 
     @JsonProperty("port")
-    public String port;
+    private String port;
 
     @JsonProperty("uri")
-    public String uri;
+    private String uri;
 
     @JsonProperty("local")
-    public String local;
+    private String local;
 
     @JsonProperty("relay")
-    public String relay;
+    private String relay;
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public Boolean isLocal() {
+        return "1".equals(local);
+    }
+
+    public Boolean isRelay() {
+        return "1".equals(relay);
+    }
 }

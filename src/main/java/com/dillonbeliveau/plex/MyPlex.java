@@ -1,5 +1,6 @@
 package com.dillonbeliveau.plex;
 
+import com.dillonbeliveau.plex.model.MyPlexDevice;
 import com.dillonbeliveau.plex.model.MyPlexUser;
 import com.dillonbeliveau.plex.model.ResourcesResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,8 +11,13 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class MyPlex {
+    private static final String GET_RESOURCES = "https://plex.tv/api/resources?includeHttps=1&includeRelay=1";
+    private static final String AUTH = "https://plex.tv/users/sign_in.xml";
+
     private final String basicCredentials;
 
     private MyPlexUser user = null;
@@ -20,19 +26,18 @@ public class MyPlex {
     private static final OkHttpClient client = new OkHttpClient();
 
     private void signin() {
-        try {
-            if (this.user != null) {
-                return;
-            }
+        if (this.user != null) {
+            return;
+        }
 
+        try {
             RequestBody emptyBody = RequestBody.create(null, new byte[]{});
             Request authRequest = new Request.Builder()
-                    .url("https://plex.tv/users/sign_in.xml")
+                    .url(AUTH)
                     .headers(PlexClient.getBaseHeaders())
                     .addHeader("Authorization", basicCredentials)
                     .post(emptyBody)
                     .build();
-
 
             String string = client.newCall(authRequest).execute().body().string();
 
@@ -43,15 +48,18 @@ public class MyPlex {
         }
     }
 
-    public MyPlex(String username, String password) throws IOException {
+    public MyPlex(String username, String password) {
         this.basicCredentials = Credentials.basic(username, password);
     }
 
-    public void resources() {
+    /**
+     * @return all resources available to this MyPlex account. Servers, players, controllers, all of it.
+     */
+    public List<MyPlexDevice> resources() {
         signin();
 
         Request getServersRequest = new Request.Builder()
-                .url("https://plex.tv/api/resources?includeHttps=1&includeRelay=1")
+                .url(GET_RESOURCES)
                 .headers(PlexClient.getBaseHeaders())
                 .addHeader("X-Plex-Token", user.getAuthToken())
                 .get()
@@ -59,14 +67,29 @@ public class MyPlex {
 
         try {
             String result = client.newCall(getServersRequest).execute().body().string();
-            System.out.println(result);
             ResourcesResponse resourcesResponse = objectMapper.readValue(result, ResourcesResponse.class);
-
-
-            System.out.println(resourcesResponse);
+            return resourcesResponse.getResources();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
+    /**
+     * Gets a stream of all servers available to this MyPlex account
+     * @return a Stream of servers
+     */
+    public Stream<MyPlexDevice> servers() {
+        List<MyPlexDevice> resources = resources();
+
+        return resources.stream()
+                .filter(resource -> resource.getProvides().contains("server"));
+    }
+
+    /**
+     * Gets a stream of only the available servers on this MyPlex account
+     * @return All online servers associated with this account
+     */
+    public Stream<MyPlexDevice> availableServers() {
+        return servers().filter(MyPlexDevice::isPresent);
     }
 }
