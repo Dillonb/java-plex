@@ -112,11 +112,11 @@ public class MyPlexDevice {
     }
 
     public Date getCreatedAt() {
-        return new Date(Long.parseLong(createdAt) * 1000);
+        return Util.stringToDate(createdAt);
     }
 
     public Date getLastSeenAt() {
-        return new Date(Long.parseLong(lastSeenAt) * 1000);
+        return Util.stringToDate(lastSeenAt);
     }
 
     public String getProvides() {

@@ -94,15 +94,15 @@ public class LibrarySectionXml {
     }
 
     public Date getUpdatedAt() {
-        return new Date(Long.parseLong(updatedAt) * 1000);
+        return Util.stringToDate(updatedAt);
     }
 
     public Date getCreatedAt() {
-        return new Date(Long.parseLong(createdAt) * 1000);
+        return Util.stringToDate(createdAt);
     }
 
     public Date getScannedAt() {
-        return new Date(Long.parseLong(scannedAt) * 1000);
+        return Util.stringToDate(scannedAt);
     }
 
     @Override

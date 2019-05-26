@@ -1,28 +1,13 @@
-package com.dillonbeliveau.plex.model;
+package com.dillonbeliveau.plex;
 
 import com.dillonbeliveau.plex.model.xml.LibrarySectionXml;
 
 import java.util.Date;
 
-public class ShowSection implements LibrarySection {
-    private boolean allowSync;
-    private String art;
-    private String composite;
-    private String filters;
-    private boolean isRefreshing;
-    private String thumb;
-    private String key;
-    private String title;
-    private String agent;
-    private String scanner;
-    private String language;
-    private String uuid;
-    private Date updatedAt;
-    private Date createdAt;
-    private Date scannedAt;
+public class ArtistSection extends LibrarySection {
 
-    public static ShowSection fromXml(LibrarySectionXml sectionXml) {
-        return new ShowSection.Builder()
+    public static ArtistSection fromXml(PlexServer plexServer, LibrarySectionXml sectionXml) {
+        return new ArtistSection.Builder()
                 .setAllowSync(sectionXml.allowSync())
                 .setArt(sectionXml.getArt())
                 .setComposite(sectionXml.getComposite())
@@ -38,107 +23,19 @@ public class ShowSection implements LibrarySection {
                 .setUpdatedAt(sectionXml.getUpdatedAt())
                 .setCreatedAt(sectionXml.getCreatedAt())
                 .setScannedAt(sectionXml.getScannedAt())
+                .setServer(plexServer)
                 .build();
     }
 
     @Override
-    public boolean allowSync() {
-        return allowSync;
-    }
-
-    @Override
-    public String getArt() {
-        return art;
-    }
-
-    @Override
-    public String getComposite() {
-        return composite;
-    }
-
-    @Override
-    public String getFilters() {
-        return filters;
-    }
-
-    @Override
-    public boolean isRefreshing() {
-        return isRefreshing;
-    }
-
-    @Override
-    public String getThumb() {
-        return thumb;
-    }
-
-    @Override
-    public String getKey() {
-        return key;
-    }
-
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public String getAgent() {
-        return agent;
-    }
-
-    @Override
-    public String getScanner() {
-        return scanner;
-    }
-
-    @Override
-    public String getLanguage() {
-        return language;
-    }
-
-    @Override
-    public String getUuid() {
-        return uuid;
-    }
-
-    @Override
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    @Override
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    @Override
-    public Date getScannedAt() {
-        return scannedAt;
-    }
-
-    @Override
     public String getType() {
-        return "show";
+        return "artist";
     }
 
-    private ShowSection(boolean allowSync, String art, String composite, String filters, boolean isRefreshing, String thumb,
-                        String key, String title, String agent, String scanner, String language, String uuid, Date updatedAt,
-                        Date createdAt, Date scannedAt) {
-        this.allowSync = allowSync;
-        this.art = art;
-        this.composite = composite;
-        this.filters = filters;
-        this.isRefreshing = isRefreshing;
-        this.thumb = thumb;
-        this.key = key;
-        this.title = title;
-        this.agent = agent;
-        this.scanner = scanner;
-        this.language = language;
-        this.uuid = uuid;
-        this.updatedAt = updatedAt;
-        this.createdAt = createdAt;
-        this.scannedAt = scannedAt;
+    private ArtistSection(boolean allowSync, String art, String composite, String filters, boolean isRefreshing, String thumb,
+                          String key, String title, String agent, String scanner, String language, String uuid, Date updatedAt,
+                          Date createdAt, Date scannedAt, PlexServer server) {
+        super(allowSync, art, composite, filters, isRefreshing, thumb, key, title, agent, scanner, language, uuid, updatedAt, createdAt, scannedAt, server);
     }
 
     public static class Builder {
@@ -157,6 +54,7 @@ public class ShowSection implements LibrarySection {
         private Date updatedAt;
         private Date createdAt;
         private Date scannedAt;
+        private PlexServer server;
 
         public Builder setAllowSync(boolean allowSync) {
             this.allowSync = allowSync;
@@ -233,8 +131,13 @@ public class ShowSection implements LibrarySection {
             return this;
         }
 
-        public ShowSection build() {
-            return new ShowSection(allowSync, art, composite, filters, isRefreshing, thumb, key, title, agent, scanner, language, uuid, updatedAt, createdAt, scannedAt);
+        public Builder setServer(PlexServer server) {
+            this.server = server;
+            return this;
+        }
+
+        public ArtistSection build() {
+            return new ArtistSection(allowSync, art, composite, filters, isRefreshing, thumb, key, title, agent, scanner, language, uuid, updatedAt, createdAt, scannedAt, server);
         }
     }
 

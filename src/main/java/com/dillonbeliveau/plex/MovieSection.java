@@ -1,27 +1,19 @@
-package com.dillonbeliveau.plex.model;
+package com.dillonbeliveau.plex;
 
 import com.dillonbeliveau.plex.model.xml.LibrarySectionXml;
+import com.dillonbeliveau.plex.model.xml.MoviesResponse;
+import com.dillonbeliveau.plex.model.xml.VideoXml;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.Request;
 
+import java.io.IOException;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class MovieSection implements LibrarySection{
-    private boolean allowSync;
-    private String art;
-    private String composite;
-    private String filters;
-    private boolean isRefreshing;
-    private String thumb;
-    private String key;
-    private String title;
-    private String agent;
-    private String scanner;
-    private String language;
-    private String uuid;
-    private Date updatedAt;
-    private Date createdAt;
-    private Date scannedAt;
+public class MovieSection extends LibrarySection{
 
-    public static MovieSection fromXml(LibrarySectionXml sectionXml) {
+    public static MovieSection fromXml(PlexServer plexServer, LibrarySectionXml sectionXml) {
         return new MovieSection.Builder()
                 .setAllowSync(sectionXml.allowSync())
                 .setArt(sectionXml.getArt())
@@ -38,82 +30,8 @@ public class MovieSection implements LibrarySection{
                 .setUpdatedAt(sectionXml.getUpdatedAt())
                 .setCreatedAt(sectionXml.getCreatedAt())
                 .setScannedAt(sectionXml.getScannedAt())
+                .setServer(plexServer)
                 .build();
-    }
-
-    @Override
-    public boolean allowSync() {
-        return allowSync;
-    }
-
-    @Override
-    public String getArt() {
-        return art;
-    }
-
-    @Override
-    public String getComposite() {
-        return composite;
-    }
-
-    @Override
-    public String getFilters() {
-        return filters;
-    }
-
-    @Override
-    public boolean isRefreshing() {
-        return isRefreshing;
-    }
-
-    @Override
-    public String getThumb() {
-        return thumb;
-    }
-
-    @Override
-    public String getKey() {
-        return key;
-    }
-
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public String getAgent() {
-        return agent;
-    }
-
-    @Override
-    public String getScanner() {
-        return scanner;
-    }
-
-    @Override
-    public String getLanguage() {
-        return language;
-    }
-
-    @Override
-    public String getUuid() {
-        return uuid;
-    }
-
-    @Override
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    @Override
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    @Override
-    public Date getScannedAt() {
-        return scannedAt;
     }
 
     @Override
@@ -121,24 +39,25 @@ public class MovieSection implements LibrarySection{
         return "movie";
     }
 
+    public List<Movie> all() {
+        String allMovies = getServer().request(String.format("/library/sections/%s/all", getKey()));
+
+        System.out.println(allMovies);
+
+        try {
+            List<VideoXml> videos = getServer().objectMapper().readValue(allMovies, MoviesResponse.class).getVideos();
+
+            return videos.stream().map(video -> Movie.fromXml(getServer(), video)).collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private MovieSection(boolean allowSync, String art, String composite, String filters, boolean isRefreshing, String thumb,
-                        String key, String title, String agent, String scanner, String language, String uuid, Date updatedAt,
-                        Date createdAt, Date scannedAt) {
-        this.allowSync = allowSync;
-        this.art = art;
-        this.composite = composite;
-        this.filters = filters;
-        this.isRefreshing = isRefreshing;
-        this.thumb = thumb;
-        this.key = key;
-        this.title = title;
-        this.agent = agent;
-        this.scanner = scanner;
-        this.language = language;
-        this.uuid = uuid;
-        this.updatedAt = updatedAt;
-        this.createdAt = createdAt;
-        this.scannedAt = scannedAt;
+                         String key, String title, String agent, String scanner, String language, String uuid, Date updatedAt,
+                         Date createdAt, Date scannedAt, PlexServer server) {
+        super(allowSync, art, composite, filters, isRefreshing, thumb, key, title, agent, scanner, language, uuid, updatedAt, createdAt, scannedAt, server);
+
     }
 
     public static class Builder {
@@ -157,6 +76,7 @@ public class MovieSection implements LibrarySection{
         private Date updatedAt;
         private Date createdAt;
         private Date scannedAt;
+        private PlexServer server;
 
         public Builder setAllowSync(boolean allowSync) {
             this.allowSync = allowSync;
@@ -234,7 +154,16 @@ public class MovieSection implements LibrarySection{
         }
 
         public MovieSection build() {
-            return new MovieSection(allowSync, art, composite, filters, isRefreshing, thumb, key, title, agent, scanner, language, uuid, updatedAt, createdAt, scannedAt);
+            return new MovieSection(allowSync, art, composite, filters, isRefreshing, thumb, key, title, agent, scanner, language, uuid, updatedAt, createdAt, scannedAt, server);
+        }
+
+        public Builder setServer(PlexServer server) {
+            this.server = server;
+            return this;
+        }
+
+        public PlexServer getServer() {
+            return server;
         }
     }
 
