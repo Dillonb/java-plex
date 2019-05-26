@@ -1,7 +1,7 @@
 package com.dillonbeliveau.plex;
 
-import com.dillonbeliveau.plex.model.MyPlexDevice;
-import com.dillonbeliveau.plex.model.MyPlexDeviceConnection;
+import com.dillonbeliveau.plex.model.xml.MyPlexDevice;
+import com.dillonbeliveau.plex.model.xml.MyPlexDeviceConnection;
 import okhttp3.Headers;
 import okhttp3.OkHttpClient;
 

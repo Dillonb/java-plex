@@ -1,4 +1,4 @@
-package com.dillonbeliveau.plex.model;
+package com.dillonbeliveau.plex.model.xml;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -11,9 +11,9 @@ import java.util.List;
 public class LibrarySectionsResponse {
     @JacksonXmlElementWrapper(localName = "Directory", useWrapping = false)
     @JacksonXmlProperty(localName = "Directory")
-    private List<LibrarySection> sections = new ArrayList<>();
+    private List<LibrarySectionXml> sections = new ArrayList<>();
 
-    public List<LibrarySection> getSections() {
+    public List<LibrarySectionXml> getSections() {
         return sections;
     }
 }

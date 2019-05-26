@@ -1,8 +1,8 @@
 package com.dillonbeliveau.plex;
 
-import com.dillonbeliveau.plex.model.MyPlexDevice;
-import com.dillonbeliveau.plex.model.MyPlexUser;
-import com.dillonbeliveau.plex.model.ResourcesResponse;
+import com.dillonbeliveau.plex.model.xml.MyPlexDevice;
+import com.dillonbeliveau.plex.model.xml.MyPlexUser;
+import com.dillonbeliveau.plex.model.xml.ResourcesResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import okhttp3.Credentials;
@@ -12,6 +12,7 @@ import okhttp3.RequestBody;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class MyPlex {
@@ -83,6 +84,21 @@ public class MyPlex {
 
         return resources.stream()
                 .filter(resource -> resource.getProvides().contains("server"));
+    }
+
+    /**
+     * Gets the server with the given name, if it exists.
+     */
+    public Optional<MyPlexDevice> server(String name) {
+        return servers().filter(device -> device.getName().equals(name)).findFirst();
+    }
+
+
+    /**
+     * Gets the device with the given name, if it exists.
+     */
+    public Optional<MyPlexDevice> device(String name) {
+        return resources().stream().filter(device -> device.getName().equals(name)).findFirst();
     }
 
     /**

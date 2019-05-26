@@ -1,4 +1,4 @@
-package com.dillonbeliveau.plex.model;
+package com.dillonbeliveau.plex.model.xml;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
