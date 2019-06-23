@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class Video {
+    private final String guid;
     private final String ratingKey;
     private final String key;
     private final String studio;
