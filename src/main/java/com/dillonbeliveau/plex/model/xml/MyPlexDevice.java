@@ -3,11 +3,13 @@ package com.dillonbeliveau.plex.model.xml;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Data
 public class MyPlexDevice {
     @JacksonXmlElementWrapper(localName = "Connection", useWrapping = false)
     @JsonProperty("Connection")
@@ -79,38 +81,6 @@ public class MyPlexDevice {
     @JacksonXmlProperty(localName = "home", isAttribute = true)
     private String home;
 
-    public List<MyPlexDeviceConnection> getConnections() {
-        return connections;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
-    public String getProductVersion() {
-        return productVersion;
-    }
-
-    public String getPlatform() {
-        return platform;
-    }
-
-    public String getPlatformVersion() {
-        return platformVersion;
-    }
-
-    public String getDevice() {
-        return device;
-    }
-
-    public String getClientIdentifier() {
-        return clientIdentifier;
-    }
-
     public Date getCreatedAt() {
         return Util.stringToDate(createdAt);
     }
@@ -119,16 +89,8 @@ public class MyPlexDevice {
         return Util.stringToDate(lastSeenAt);
     }
 
-    public String getProvides() {
-        return provides;
-    }
-
-    public boolean getOwned() {
+    public boolean isOwned() {
         return "1".equals(owned);
-    }
-
-    public String getPublicAddress() {
-        return publicAddress;
     }
 
     public boolean getPublicAddressMatches() {
@@ -139,36 +101,12 @@ public class MyPlexDevice {
         return "1".equals(presence);
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
     public boolean isHttpsRequired() {
         return "1".equals(httpsRequired);
     }
 
-    public String getSourceTitle() {
-        return sourceTitle;
-    }
-
     public boolean isSynced() {
         return "1".equals(synced);
-    }
-
-    public String getDnsRebindingProtection() {
-        return dnsRebindingProtection;
-    }
-
-    public String getRelay() {
-        return relay;
-    }
-
-    public String getOwnerId() {
-        return ownerId;
-    }
-
-    public String getHome() {
-        return home;
     }
 
     @Override

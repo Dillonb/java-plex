@@ -2,6 +2,7 @@ package com.dillonbeliveau.plex.model.xml;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Data
 public class VideoXml {
     @JacksonXmlProperty(localName = "ratingKey", isAttribute = true)
     private String ratingKey;
@@ -113,84 +115,11 @@ public class VideoXml {
     @JacksonXmlProperty(localName = "Country")
     private VideoTag country;
 
-    public String getRatingKey() {
-        return ratingKey;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getStudio() {
-        return studio;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getTitleSort() {
-        return titleSort;
-    }
-
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
-
-    public String getContentRating() {
-        return contentRating;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public String getRating() {
-        return rating;
-    }
-
-    public String getAudienceRating() {
-        return audienceRating;
-    }
-
-    public String getUserRating() {
-        return userRating;
-    }
-
-    public String getViewCount() {
-        return viewCount;
-    }
+    @JacksonXmlProperty(localName = "guid")
+    private String guid;
 
     public Date getLastViewedAt() {
         return Util.stringToDate(lastViewedAt);
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public String getTagline() {
-        return tagline;
-    }
-
-    public String getThumb() {
-        return thumb;
-    }
-
-    public String getArt() {
-        return art;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public String getViewOffset() {
-        return viewOffset;
     }
 
     public String getOriginallyAvailableAt() {
@@ -203,26 +132,6 @@ public class VideoXml {
 
     public Date getUpdatedAt() {
         return Util.stringToDate(updatedAt);
-    }
-
-    public String getAudienceRatingImage() {
-        return audienceRatingImage;
-    }
-
-    public String getChapterSource() {
-        return chapterSource;
-    }
-
-    public String getPrimaryExtraKey() {
-        return primaryExtraKey;
-    }
-
-    public String getRatingImage() {
-        return ratingImage;
-    }
-
-    public Media getMedia() {
-        return media;
     }
 
     public List<String> getGenres() {

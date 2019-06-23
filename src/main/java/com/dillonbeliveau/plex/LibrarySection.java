@@ -1,9 +1,10 @@
 package com.dillonbeliveau.plex;
 
-import okhttp3.OkHttpClient;
+import lombok.Data;
 
 import java.util.Date;
 
+@Data
 public abstract class LibrarySection {
     private boolean allowSync;
     private String art;
@@ -42,71 +43,6 @@ public abstract class LibrarySection {
         this.scannedAt = scannedAt;
         this.server = server;
     }
-
-    public boolean isAllowSync() {
-        return allowSync;
-    }
-
-    public String getArt() {
-        return art;
-    }
-
-    public String getComposite() {
-        return composite;
-    }
-
-    public String getFilters() {
-        return filters;
-    }
-
-    public boolean isRefreshing() {
-        return isRefreshing;
-    }
-
-    public String getThumb() {
-        return thumb;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAgent() {
-        return agent;
-    }
-
-    public String getScanner() {
-        return scanner;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public Date getScannedAt() {
-        return scannedAt;
-    }
-
-    public PlexServer getServer() {
-        return server;
-    }
-
     public abstract String getType();
 
     public <T extends LibrarySection> T as(Class<T> type) {

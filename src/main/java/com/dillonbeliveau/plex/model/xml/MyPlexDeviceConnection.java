@@ -1,7 +1,9 @@
 package com.dillonbeliveau.plex.model.xml;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class MyPlexDeviceConnection {
     @JsonProperty("protocol")
     private String protocol;
@@ -20,18 +22,6 @@ public class MyPlexDeviceConnection {
 
     @JsonProperty("relay")
     private String relay;
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getPort() {
-        return port;
-    }
 
     public String getUri() {
         return uri;

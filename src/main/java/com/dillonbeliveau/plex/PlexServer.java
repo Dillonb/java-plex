@@ -13,9 +13,15 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.dillonbeliveau.plex.PlexClient.getBestConnection;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class PlexServer {
-    private static final OkHttpClient client = new OkHttpClient();
+    private static final OkHttpClient client = new OkHttpClient.Builder()
+            .callTimeout(10, SECONDS)
+            .connectTimeout(10, SECONDS)
+            .readTimeout(10, SECONDS)
+            .writeTimeout(10, SECONDS)
+            .build();
     private static final ObjectMapper objectMapper = new XmlMapper();
 
     private final String uri;
@@ -81,9 +87,10 @@ public class PlexServer {
                 .findFirst();
     }
 
-    public List<LibrarySection> videoSections() {
+    public List<VideoSection> videoSections() {
         return librarySections().stream()
                 .filter(section -> section.getType().equals("show") || section.getType().equals("movie"))
+                .map(section -> section.as(VideoSection.class))
                 .collect(Collectors.toList());
     }
 

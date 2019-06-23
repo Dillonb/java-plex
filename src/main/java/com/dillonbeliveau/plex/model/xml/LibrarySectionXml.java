@@ -2,9 +2,11 @@ package com.dillonbeliveau.plex.model.xml;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import lombok.Data;
 
 import java.util.Date;
 
+@Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LibrarySectionXml {
 
@@ -45,52 +47,8 @@ public class LibrarySectionXml {
         return "1".equals(allowSync);
     }
 
-    public String getArt() {
-        return art;
-    }
-
-    public String getComposite() {
-        return composite;
-    }
-
-    public String getFilters() {
-        return filters;
-    }
-
     public boolean isRefreshing() {
         return "1".equals(refreshing);
-    }
-
-    public String getThumb() {
-        return thumb;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAgent() {
-        return agent;
-    }
-
-    public String getScanner() {
-        return scanner;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public String getUuid() {
-        return uuid;
     }
 
     public Date getUpdatedAt() {

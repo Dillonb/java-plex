@@ -2,8 +2,10 @@ package com.dillonbeliveau.plex.model.xml;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Data
 public class MyPlexUser {
     @JsonProperty("username")
     String username;
@@ -13,16 +15,4 @@ public class MyPlexUser {
 
     @JsonProperty("authentication-token")
     String authToken;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getAuthToken() {
-        return authToken;
-    }
 }

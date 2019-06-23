@@ -5,7 +5,7 @@ import com.dillonbeliveau.plex.model.xml.LibrarySectionXml;
 import java.util.Date;
 import java.util.List;
 
-public class ShowSection extends LibrarySection {
+public class ShowSection extends VideoSection {
 
     public static ShowSection fromXml(PlexServer plexServer, LibrarySectionXml sectionXml) {
         return new ShowSection.Builder()
@@ -33,19 +33,19 @@ public class ShowSection extends LibrarySection {
         return "show";
     }
 
-    public List<Show> all() {
-        String allShows = getServer().request(String.format("/library/sections/%s/all", getKey()));
-
-        System.out.println(allShows);
-
-        return List.of();
-    }
-
-
     private ShowSection(boolean allowSync, String art, String composite, String filters, boolean isRefreshing, String thumb,
                         String key, String title, String agent, String scanner, String language, String uuid, Date updatedAt,
                         Date createdAt, Date scannedAt, PlexServer server) {
         super(allowSync, art, composite, filters, isRefreshing, thumb, key, title, agent, scanner, language, uuid, updatedAt, createdAt, scannedAt, server);
+    }
+
+    @Override
+    public List<Video> allVideos() {
+        String allShows = getServer().request(String.format("/library/sections/%s/all", getKey()));
+
+        //System.out.println(allShows);
+
+        return List.of();
     }
 
     public static class Builder {
