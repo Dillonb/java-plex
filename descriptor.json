@@ -18,7 +18,7 @@
 
   "files":
   [
-      {"includePattern": "/home/travis/.m2/repository/com/dillonbeliveau/plex/0.0.1-SNAPSHOT/(.*)", "uploadPattern": "com/dillonbeliveau/plex/0.0.1/$1"}
+      {"includePattern": "/home/travis/.m2/repository/com/dillonbeliveau/plex/(.*)/(.*)", "uploadPattern": "com/dillonbeliveau/plex/$1/$2"}
   ],
   "publish": true
 }
