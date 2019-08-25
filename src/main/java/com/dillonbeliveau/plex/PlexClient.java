@@ -42,7 +42,7 @@ class PlexClient {
 
     private static Headers baseHeaders = new Headers.Builder()
             .add("X-Plex-Platform", "java-plex")
-            .add("X-Plex-Platform-Version", "1.0.0-SNAPSHOT")
+            .add("X-Plex-Platform-Version", "0.0.1")
             .add("X-Plex-Provides", "controller")
             .add("X-Plex-Client-Identifier", "java-plex")
             .build();
