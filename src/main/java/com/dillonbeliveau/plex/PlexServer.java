@@ -42,6 +42,7 @@ public class PlexServer {
     }
 
     String request(String path) {
+        System.out.println("Making a request to " + path);
         Request request = new Request.Builder()
                 .url(uri + path)
                 .headers(PlexClient.getBaseHeaders())
