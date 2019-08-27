@@ -17,10 +17,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class PlexServer {
     private static final OkHttpClient client = new OkHttpClient.Builder()
-            .callTimeout(10, SECONDS)
-            .connectTimeout(10, SECONDS)
-            .readTimeout(10, SECONDS)
-            .writeTimeout(10, SECONDS)
+            .callTimeout(20, SECONDS)
+            .connectTimeout(20, SECONDS)
+            .readTimeout(20, SECONDS)
+            .writeTimeout(20, SECONDS)
             .build();
     private static final ObjectMapper objectMapper = new XmlMapper();
 
@@ -42,7 +42,6 @@ public class PlexServer {
     }
 
     String request(String path) {
-        System.out.println("Making a request to " + path);
         Request request = new Request.Builder()
                 .url(uri + path)
                 .headers(PlexClient.getBaseHeaders())
