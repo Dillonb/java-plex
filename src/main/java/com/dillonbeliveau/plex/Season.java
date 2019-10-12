@@ -2,7 +2,6 @@ package com.dillonbeliveau.plex;
 
 import com.dillonbeliveau.plex.model.xml.EpisodesResponse;
 import com.dillonbeliveau.plex.model.xml.SeasonXML;
-import com.dillonbeliveau.plex.model.xml.SeasonsResponse;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -49,4 +49,7 @@ public class SeasonXML {
     private String viewCount;
     @JacksonXmlProperty(localName = "lastViewedAt", isAttribute = true)
     private String lastViewedAt;
+    @JacksonXmlProperty(localName = "hasPremiumPrimaryExtra", isAttribute = true)
+    private String hasPremiumPrimaryExtra;
+
 }
