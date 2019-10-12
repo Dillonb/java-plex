@@ -8,7 +8,7 @@ import lombok.Builder;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MovieSection extends VideoSection {
 
@@ -39,13 +39,13 @@ public class MovieSection extends VideoSection {
     }
 
 
-    public List<Video> allVideos() {
+    public Stream<Video> allVideos() {
         String allMovies = getServer().request(String.format("/library/sections/%s/all", getKey()));
 
         try {
             List<VideoXml> videos = getServer().objectMapper().readValue(allMovies, MoviesResponse.class).getVideos();
 
-            return videos.stream().map(video -> Movie.fromXml(this, video)).collect(Collectors.toList());
+            return videos.stream().map(video -> Movie.fromXml(this, video));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

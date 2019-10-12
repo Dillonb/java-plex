@@ -1,9 +1,11 @@
 package com.dillonbeliveau.plex.model.xml;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Getter;
 
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SeasonXML {
     @JacksonXmlProperty(localName = "ratingKey", isAttribute = true)
     private String ratingKey;
@@ -51,5 +53,8 @@ public class SeasonXML {
     private String lastViewedAt;
     @JacksonXmlProperty(localName = "hasPremiumPrimaryExtra", isAttribute = true)
     private String hasPremiumPrimaryExtra;
+    @JacksonXmlProperty(localName = "primaryExtraKey", isAttribute = true)
+    private String primaryExtraKey;
+
 
 }

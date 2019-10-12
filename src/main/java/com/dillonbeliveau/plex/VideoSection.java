@@ -1,7 +1,7 @@
 package com.dillonbeliveau.plex;
 
 import java.util.Date;
-import java.util.List;
+import java.util.stream.Stream;
 
 public abstract class VideoSection extends LibrarySection {
     public VideoSection(boolean allowSync, String art, String composite, String filters, boolean isRefreshing, String thumb,
@@ -10,5 +10,5 @@ public abstract class VideoSection extends LibrarySection {
         super(allowSync, art, composite, filters, isRefreshing, thumb, key, title, agent, scanner, language, uuid, updatedAt, createdAt, scannedAt, server);
     }
 
-    public abstract List<Video> allVideos();
+    public abstract Stream<Video> allVideos();
 }

@@ -1,5 +1,6 @@
 package com.dillonbeliveau.plex.model.xml;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Data;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class VideoXml {
     @JacksonXmlProperty(localName = "ratingKey", isAttribute = true)
     private String ratingKey;

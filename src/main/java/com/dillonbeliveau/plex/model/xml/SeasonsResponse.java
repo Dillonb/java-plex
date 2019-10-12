@@ -1,5 +1,6 @@
 package com.dillonbeliveau.plex.model.xml;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import java.util.List;
 
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SeasonsResponse {
     @JacksonXmlProperty(localName = "size", isAttribute = true)
     private String size;

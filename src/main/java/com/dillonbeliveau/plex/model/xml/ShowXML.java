@@ -1,5 +1,6 @@
 package com.dillonbeliveau.plex.model.xml;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import lombok.Getter;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ShowXML {
 
     @JacksonXmlProperty(localName = "ratingKey", isAttribute = true)
