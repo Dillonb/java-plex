@@ -37,4 +37,7 @@ public class Part {
 
     @JacksonXmlProperty(localName = "optimizedForStreaming", isAttribute = true)
     String optimizedForStreaming;
+
+    @JacksonXmlProperty(localName = "packetLength", isAttribute = true)
+    private String packetLength;
 }

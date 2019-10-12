@@ -1,9 +1,15 @@
 package com.dillonbeliveau.plex;
 
 import com.dillonbeliveau.plex.model.xml.LibrarySectionXml;
+import com.dillonbeliveau.plex.model.xml.MoviesResponse;
+import com.dillonbeliveau.plex.model.xml.ShowsResponse;
+import com.dillonbeliveau.plex.model.xml.VideoXml;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ShowSection extends VideoSection {
 
@@ -43,9 +49,15 @@ public class ShowSection extends VideoSection {
     public List<Video> allVideos() {
         String allShows = getServer().request(String.format("/library/sections/%s/all", getKey()));
 
-        //System.out.println(allShows);
-
-        return List.of();
+        try {
+            ShowsResponse response = getServer()
+                    .objectMapper()
+                    .readValue(allShows, ShowsResponse.class);
+            Stream<Show> shows = response.getShows().stream().map(show -> Show.fromXML(this, show));
+            return shows.flatMap(Show::allVideos).collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static class Builder {

@@ -2,16 +2,16 @@ package com.dillonbeliveau.plex.model.xml;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Data
-public class VideoXml {
+@Getter
+public class ShowXML {
+
     @JacksonXmlProperty(localName = "ratingKey", isAttribute = true)
     private String ratingKey;
 
@@ -30,9 +30,6 @@ public class VideoXml {
     @JacksonXmlProperty(localName = "titleSort", isAttribute = true)
     private String titleSort;
 
-    @JacksonXmlProperty(localName = "originalTitle", isAttribute = true)
-    private String originalTitle;
-
     @JacksonXmlProperty(localName = "contentRating", isAttribute = true)
     private String contentRating;
 
@@ -41,9 +38,6 @@ public class VideoXml {
 
     @JacksonXmlProperty(localName = "rating", isAttribute = true)
     private String rating;
-
-    @JacksonXmlProperty(localName = "audienceRating", isAttribute = true)
-    private String audienceRating;
 
     @JacksonXmlProperty(localName = "userRating", isAttribute = true)
     private String userRating;
@@ -93,6 +87,21 @@ public class VideoXml {
     @JacksonXmlProperty(localName = "ratingImage", isAttribute = true)
     private String ratingImage;
 
+    @JacksonXmlProperty(localName = "banner", isAttribute = true)
+    private String banner;
+
+    @JacksonXmlProperty(localName = "theme", isAttribute = true)
+    private String theme;
+
+    @JacksonXmlProperty(localName = "leafCount", isAttribute = true)
+    private String leafCount;
+
+    @JacksonXmlProperty(localName = "viewedLeafCount", isAttribute = true)
+    private String viewedLeafCount;
+
+    @JacksonXmlProperty(localName = "childCount", isAttribute = true)
+    private String childCount;
+
     @JacksonXmlProperty(localName = "Media")
     private Media media;
 
@@ -112,69 +121,18 @@ public class VideoXml {
     @JacksonXmlProperty(localName = "Role")
     private List<VideoTag> roles = new ArrayList<>();
 
+    @JacksonXmlElementWrapper(localName = "Collection", useWrapping = false)
+    @JacksonXmlProperty(localName = "Collection")
+    private List<VideoTag> collections = new ArrayList<>();
+
     @JacksonXmlProperty(localName = "Country")
     private VideoTag country;
 
     @JacksonXmlProperty(localName = "guid")
     private String guid;
 
-    @JacksonXmlProperty(localName = "parentRatingKey", isAttribute = true)
-    private String parentRatingKey;
-
-    @JacksonXmlProperty(localName = "grandparentRatingKey", isAttribute = true)
-    private String grandparentRatingKey;
-
-    @JacksonXmlProperty(localName = "parentGuid", isAttribute = true)
-    private String parentGuid;
-
-    @JacksonXmlProperty(localName = "grandparentGuid", isAttribute = true)
-    private String grandparentGuid;
-
-    @JacksonXmlProperty(localName = "grandparentKey", isAttribute = true)
-    private String grandparentKey;
-
-    @JacksonXmlProperty(localName = "parentKey", isAttribute = true)
-    private String parentKey;
-
-    @JacksonXmlProperty(localName = "grandparentTitle", isAttribute = true)
-    private String grandparentTitle;
-
-    @JacksonXmlProperty(localName = "parentTitle", isAttribute = true)
-    private String parentTitle;
-
-    @JacksonXmlProperty(localName = "index", isAttribute = true)
+    @JacksonXmlProperty(localName = "index")
     private String index;
-
-    @JacksonXmlProperty(localName = "parentIndex", isAttribute = true)
-    private String parentIndex;
-
-    @JacksonXmlProperty(localName = "parentThumb", isAttribute = true)
-    private String parentThumb;
-
-    @JacksonXmlProperty(localName = "grandparentThumb", isAttribute = true)
-    private String grandparentThumb;
-
-    @JacksonXmlProperty(localName = "grandparentArt", isAttribute = true)
-    private String grandparentArt;
-
-    @JacksonXmlProperty(localName = "grandparentTheme", isAttribute = true)
-    private String grandparentTheme;
-
-    public Date getLastViewedAt() {
-        return Util.stringToDate(lastViewedAt);
-    }
-
-    public String getOriginallyAvailableAt() {
-        return originallyAvailableAt;
-    }
-
-    public Date getAddedAt() {
-        return Util.stringToDate(addedAt);
-    }
-
-    public Date getUpdatedAt() {
-        return Util.stringToDate(updatedAt);
-    }
 
     public List<String> getGenres() {
         return genres.stream().map(VideoTag::getTag).collect(Collectors.toList());
@@ -190,6 +148,10 @@ public class VideoXml {
 
     public List<String> getRoles() {
         return roles.stream().map(VideoTag::getTag).collect(Collectors.toList());
+    }
+
+    public List<String> getCollections() {
+        return collections.stream().map(VideoTag::getTag).collect(Collectors.toList());
     }
 
     public String getCountry() {
