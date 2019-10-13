@@ -2,6 +2,7 @@ package com.dillonbeliveau.plex;
 
 import com.dillonbeliveau.plex.model.xml.LibrarySectionsResponse;
 import com.dillonbeliveau.plex.model.xml.MyPlexDevice;
+import com.dillonbeliveau.plex.util.Retry;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import okhttp3.OkHttpClient;
@@ -10,6 +11,7 @@ import okhttp3.Request;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
 import static com.dillonbeliveau.plex.PlexClient.getBestConnection;
@@ -42,16 +44,18 @@ public class PlexServer {
     }
 
     String request(String path) {
-        Request request = new Request.Builder()
-                .url(uri + path)
-                .headers(PlexClient.getBaseHeaders())
-                .addHeader("X-Plex-Token", token)
-                .build();
-
-
         try {
-            return client.newCall(request).execute().body().string();
-        } catch (IOException e) {
+            return Retry.retry(() -> {
+                Request request = new Request.Builder()
+                        .url(uri + path)
+                        .headers(PlexClient.getBaseHeaders())
+                        .addHeader("X-Plex-Token", token)
+                        .build();
+
+
+                return client.newCall(request).execute().body().string();
+            });
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
