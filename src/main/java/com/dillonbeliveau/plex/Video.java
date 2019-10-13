@@ -4,6 +4,8 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Data
 public class Video {
@@ -46,11 +48,29 @@ public class Video {
         return viewCount > 0;
     }
 
+    private final Pattern endsWithLang = Pattern.compile("^(.+)\\?lang=..$");
+
     public void markWatched() {
         getLibrarySection().getServer().request(String.format("/:/scrobble?key=%s&identifier=com.plexapp.plugins.library", getRatingKey()));
     }
 
     public void markUnwatched() {
         getLibrarySection().getServer().request(String.format("/:/unscrobble?key=%s&identifier=com.plexapp.plugins.library", getRatingKey()));
+    }
+
+    public String getGuidNoLang() {
+        String guid = getGuid();
+
+        if (guid == null || guid.equals("")) {
+            return guid;
+        }
+
+        Matcher matcher = endsWithLang.matcher(guid);
+
+        if (matcher.matches()) {
+            return matcher.group(1);
+        }
+
+        return guid;
     }
 }
