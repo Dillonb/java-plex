@@ -10,6 +10,25 @@
     <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
+  <profiles>
+    <profile>
+      <id>github</id>
+      <repositories>
+        <repository>
+          <id>central</id>
+          <url>https://repo1.maven.org/maven2</url>
+          <releases><enabled>true</enabled></releases>
+          <snapshots><enabled>true</enabled></snapshots>
+        </repository>
+        <repository>
+          <id>github</id>
+          <name>GitHub Dillonb Apache Maven Packages</name>
+          <url>https://maven.pkg.github.com/Dillonb</url>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
   <dependencies>
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
